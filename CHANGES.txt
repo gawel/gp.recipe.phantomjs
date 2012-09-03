@@ -1,7 +1,4 @@
-Changelog
-=========
-
 1.3
---------------------
+===
 
-- First "stable" release
+First "stable" release
