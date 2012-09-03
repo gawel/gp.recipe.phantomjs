@@ -39,7 +39,7 @@ tests_require = ['zope.testing', 'zc.buildout']
 
 setup(name='gp.recipe.phantomjs',
       version=version,
-      description="buildout recipe to install phantomjs",
+      description="buildout recipe to install phantomjs/casperjs",
       long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -48,10 +48,10 @@ setup(name='gp.recipe.phantomjs',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         ],
-      keywords='',
-      author='',
-      author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      keywords='buildout phantomjs casperjs',
+      author='Gael Pasgrimaud',
+      author_email='gael@gawel.org',
+      url='http://github.com/gawel/gp.recipe.phantomjs',
       license='gpl',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['gp', 'gp.recipe'],
