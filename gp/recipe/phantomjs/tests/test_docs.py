@@ -11,9 +11,11 @@ import zc.buildout.testing
 
 from zope.testing import renormalizing
 
-optionflags =  (doctest.ELLIPSIS |
-                doctest.NORMALIZE_WHITESPACE |
-                doctest.REPORT_ONLY_FIRST_FAILURE)
+
+optionflags = (doctest.ELLIPSIS |
+               doctest.NORMALIZE_WHITESPACE |
+               doctest.REPORT_ONLY_FIRST_FAILURE)
+
 
 def setUp(test):
     zc.buildout.testing.buildoutSetUp(test)
@@ -22,7 +24,9 @@ def setUp(test):
     zc.buildout.testing.install_develop('gp.recipe.phantomjs', test)
 
     # Install any other recipes that should be available in the tests
-    #zc.buildout.testing.install('collective.recipe.foobar', test)
+    zc.buildout.testing.install('zc.recipe.egg', test)
+    zc.buildout.testing.install('hexagonit.recipe.download', test)
+
 
 def test_suite():
     suite = unittest.TestSuite((

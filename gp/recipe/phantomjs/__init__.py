@@ -15,7 +15,10 @@ class Recipe(object):
 
     def get_binaries(self):
         binaries = glob.glob(os.path.join(self.install_dir, '*', 'bin', '*js'))
-        return dict([(os.path.basename(p), p) for p in binaries])
+        binaries = dict([(os.path.basename(p), p) for p in binaries])
+        if 'bootstrap.js' in binaries:
+            del binaries['bootstrap.js']
+        return binaries
 
     def download(self, url):
         from hexagonit.recipe.download import Recipe as Download
@@ -52,6 +55,4 @@ class Recipe(object):
         rscripts = Scripts(self.buildout, self.name, self.options)
         return rscripts.install()
 
-    def update(self):
-        """Updater"""
-        pass
+    update = install
