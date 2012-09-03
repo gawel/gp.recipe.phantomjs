@@ -30,3 +30,11 @@ We'll start by creating a buildout that uses the recipe::
     ... [casperjs]
     ... recipe = gp.recipe.phantomjs
     ... """)
+
+    >>> _ = system('buildout')
+
+    >>> ls('bin')
+    -  buildout
+    -  casperjs
+    -  phantomjs
+
