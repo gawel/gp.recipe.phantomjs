@@ -46,8 +46,9 @@ class Recipe(object):
             self.download(self.options.get('casperjs-url',
                             'https://github.com/n1k0/casperjs/tarball/0.6.10'))
 
-        self.options['eggs'] = 'gp.recipe.phantomjs'
+        binaries = self.get_binaries()
         self.options['arguments'] = repr(binaries)
+        self.options['eggs'] = 'gp.recipe.phantomjs'
         self.options['entry-points'] = '\n'.join([
             '%s=gp.recipe.phantomjs.script:main' % s for s in binaries
             ])
