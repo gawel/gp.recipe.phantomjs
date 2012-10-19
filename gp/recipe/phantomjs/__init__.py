@@ -33,12 +33,15 @@ class Recipe(object):
         if 'phantomjs' not in binaries:
             url = self.options.get('phantomjs-url', None)
             if not url:
+                version = self.options.get('phantomjs-version', '1.7.0')
                 if sys.platform == 'linux2':
                     url = ('https://phantomjs.googlecode.com/'
-                       'files/phantomjs-1.6.1-linux-x86_64-dynamic.tar.bz2')
+                       'files/phantomjs-%s-linux-x86_64-dynamic.tar.bz2'
+                       ) % version
                 elif sys.platform == 'darwin':
                     url = ('https://phantomjs.googlecode.com/'
-                        'files/phantomjs-1.6.1-macosx-static.zip')
+                        'files/phantomjs-%s-macosx-static.zip'
+                      ) % version
                 else:
                     raise RuntimeError('Please specify a phantomjs-url')
             self.download(url)

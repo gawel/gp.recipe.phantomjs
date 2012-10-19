@@ -13,6 +13,9 @@ The recipe supports the following options:
 phantomjs-url
     Url to download phantomjs
 
+phantomjs-version
+    Try to retreive phantomjs url from version
+
 casperjs-url
     Url to download casperjs
 
