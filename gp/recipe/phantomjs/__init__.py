@@ -11,7 +11,8 @@ class Recipe(object):
     def __init__(self, buildout, name, options):
         self.buildout, self.name, self.options = buildout, name, options
         self.install_dir = os.path.join(
-                                buildout['buildout']['parts-directory'], name)
+            buildout['buildout']['parts-directory'], name
+        )
 
     def get_binaries(self):
         binaries = glob.glob(os.path.join(self.install_dir, '*', 'bin', '*js'))
@@ -35,26 +36,35 @@ class Recipe(object):
             if not url:
                 version = self.options.get('phantomjs-version', '1.7.0')
                 if sys.platform == 'linux2':
-                    url = ('https://phantomjs.googlecode.com/'
-                       'files/phantomjs-%s-linux-x86_64-dynamic.tar.bz2'
-                       ) % version
+                    url = (
+                        'https://phantomjs.googlecode.com/'
+                        'files/phantomjs-%s-linux-i686.tar.bz2'
+                    ) % version
                 elif sys.platform == 'darwin':
-                    url = ('https://phantomjs.googlecode.com/'
-                        'files/phantomjs-%s-macosx-static.zip'
-                      ) % version
+                    url = (
+                        'https://phantomjs.googlecode.com/'
+                        'files/phantomjs-%s-macosx.zip'
+                    ) % version
                 else:
                     raise RuntimeError('Please specify a phantomjs-url')
             self.download(url)
         if 'casperjs' not in binaries:
-            self.download(self.options.get('casperjs-url',
-                            'https://github.com/n1k0/casperjs/tarball/0.6.10'))
+            self.download(
+                self.options.get(
+                    'casperjs-url',
+                    'https://github.com/n1k0/casperjs/tarball/1.0.0-RC4'
+                )
+            )
 
         binaries = self.get_binaries()
+        for f in binaries.values():
+            os.chmod(f, 0777)
+
         self.options['arguments'] = repr(binaries)
         self.options['eggs'] = 'gp.recipe.phantomjs'
         self.options['entry-points'] = '\n'.join([
             '%s=gp.recipe.phantomjs.script:main' % s for s in binaries
-            ])
+        ])
         from zc.recipe.egg import Scripts
         rscripts = Scripts(self.buildout, self.name, self.options)
         return rscripts.install()
