@@ -1,0 +1,5 @@
+*.pyc
+bin/
+develop-eggs/
+gp.recipe.phantomjs.egg-info/
+.installed.cfg
