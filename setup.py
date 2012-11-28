@@ -12,15 +12,10 @@ def read(*rnames):
     except:
         return ''
 
-version = '1.7.0'
+version = '1.7.0.1'
 
 long_description = (
-    read('README.txt')
-    + '\n' +
-    'Detailed Documentation\n'
-    '**********************\n'
-    + '\n' +
-    read('gp', 'recipe', 'phantomjs', 'README.txt')
+    read('README.rst')
     + '\n' +
     'Contributors\n'
     '************\n'
@@ -56,7 +51,8 @@ setup(name='gp.recipe.phantomjs',
       author_email='gael@gawel.org',
       url='http://github.com/gawel/gp.recipe.phantomjs',
       license='gpl',
-      packages=find_packages(exclude=['ez_setup']),
+      packages=find_packages(exclude=['ez_setup', 'tests',
+                                      'bootstrap', 'bootstrap-py3k']),
       namespace_packages=['gp', 'gp.recipe'],
       include_package_data=True,
       zip_safe=False,

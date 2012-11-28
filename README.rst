@@ -1,3 +1,5 @@
+Buildout recipe to install phantomjs/casperjs
+
 Supported options
 =================
 
@@ -34,7 +36,7 @@ We'll start by creating a buildout that uses the recipe::
     ... recipe = gp.recipe.phantomjs
     ... """)
 
-    >>> _ = system('buildout')
+    >>> system('buildout')
 
     >>> ls('bin')
     -  buildout

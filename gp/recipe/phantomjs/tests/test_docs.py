@@ -19,13 +19,9 @@ optionflags = (doctest.ELLIPSIS |
 
 def setUp(test):
     zc.buildout.testing.buildoutSetUp(test)
-
-    # Install the recipe in develop mode
-    zc.buildout.testing.install_develop('gp.recipe.phantomjs', test)
-
-    # Install any other recipes that should be available in the tests
     zc.buildout.testing.install('zc.recipe.egg', test)
     zc.buildout.testing.install('hexagonit.recipe.download', test)
+    zc.buildout.testing.install_develop('gp.recipe.phantomjs', test)
 
 
 def test_suite():
