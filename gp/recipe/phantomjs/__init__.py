@@ -58,7 +58,7 @@ class Recipe(object):
 
         binaries = self.get_binaries()
         for f in binaries.values():
-            os.chmod(f, 0777)
+            os.chmod(f, 0o777)
 
         self.options['arguments'] = repr(binaries)
         self.options['eggs'] = 'gp.recipe.phantomjs'
