@@ -1,3 +1,9 @@
+1.7.0.2
+=======
+
+Use correct octal format for chmod
+
+
 1.7.0
 =====
 
