@@ -35,7 +35,7 @@ class Recipe(object):
             url = self.options.get('phantomjs-url', None)
             if not url:
                 version = self.options.get('phantomjs-version', '1.7.0')
-                if sys.platform in ('linux2', 'linux3'):
+                if sys.platform.startswith('linux'):
                     arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
                     url = (
                         'https://phantomjs.googlecode.com/'
