@@ -62,12 +62,11 @@ class Recipe(object):
                     raise RuntimeError('Please specify a phantomjs-url')
             self.download(url)
         if 'casperjs' not in binaries:
-            self.download(
-                self.options.get(
+            url = self.options.get(
                     'casperjs-url',
-                    'https://github.com/n1k0/casperjs/tarball/1.0.0-RC4'
-                )
-            )
+                    'https://github.com/n1k0/casperjs/tarball/1.0.0-RC4')
+            if url:
+                self.download(url)
 
         binaries = self.get_binaries()
         for f in binaries.values():
