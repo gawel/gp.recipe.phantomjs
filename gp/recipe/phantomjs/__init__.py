@@ -16,10 +16,17 @@ class Recipe(object):
 
     def get_binaries(self):
         binaries = glob.glob(os.path.join(self.install_dir, '*', 'bin', '*js'))
-        binaries = dict([(os.path.basename(p), p) for p in binaries])
-        if 'bootstrap.js' in binaries:
-            del binaries['bootstrap.js']
-        return binaries
+        if sys.platform.startswith('win'):
+            binaries.extend(glob.glob(os.path.join(self.install_dir, '*', '*.exe')))
+        rv = {}
+        for p in binaries:
+            bname = os.path.basename(p)
+            if bname.lower().endswith('.js'):
+                continue
+            if bname.lower().endswith('.exe'):
+                bname = bname[:-4]
+            rv[bname] = p
+        return rv
 
     def download(self, url):
         from hexagonit.recipe.download import Recipe as Download
@@ -46,16 +53,20 @@ class Recipe(object):
                         'https://phantomjs.googlecode.com/'
                         'files/phantomjs-%s-macosx.zip'
                     ) % version
+                elif sys.platform.startswith('win'):
+                    url = (
+                        'https://phantomjs.googlecode.com/'
+                        'files/phantomjs-%s-windows.zip'
+                    ) % version
                 else:
                     raise RuntimeError('Please specify a phantomjs-url')
             self.download(url)
         if 'casperjs' not in binaries:
-            self.download(
-                self.options.get(
+            url = self.options.get(
                     'casperjs-url',
-                    'https://github.com/n1k0/casperjs/tarball/1.0.0-RC4'
-                )
-            )
+                    'https://github.com/n1k0/casperjs/tarball/1.0.0-RC4')
+            if url:
+                self.download(url)
 
         binaries = self.get_binaries()
         for f in binaries.values():
