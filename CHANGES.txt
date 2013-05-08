@@ -1,3 +1,10 @@
+1.9.0.1
+========
+
+Switch to PhantomJS 1.9.0
+
+Add windows support [agroszer]
+
 1.7.0.3
 =======
 
