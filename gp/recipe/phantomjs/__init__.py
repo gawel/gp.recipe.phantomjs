@@ -41,7 +41,7 @@ class Recipe(object):
         if 'phantomjs' not in binaries:
             url = self.options.get('phantomjs-url', None)
             if not url:
-                version = self.options.get('phantomjs-version', '1.7.0')
+                version = self.options.get('phantomjs-version', '1.9.1')
                 default_base = 'https://phantomjs.googlecode.com/files'
                 url_base = self.options.get('phantomjs-url-base', default_base)
                 if sys.platform.startswith('linux'):

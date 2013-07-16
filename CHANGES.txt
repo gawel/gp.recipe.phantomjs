@@ -1,6 +1,7 @@
-(next version)
-==============
+1.9.1
+=====
 
+* Switch to PhantomJS 1.9.1
 * Add phantomjs-url-base option for using phantomjs mirrors.
 
 1.9.0.2
