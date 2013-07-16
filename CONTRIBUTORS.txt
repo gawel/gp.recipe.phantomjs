@@ -1,1 +1,2 @@
 - Gael Pasgrimaud
+- Richard Barrell

@@ -15,6 +15,11 @@ The recipe supports the following options:
 phantomjs-url
     Url to download phantomjs
 
+phantomjs-url-base
+    If phantomjs-url is not specified, this recipe downloads phantomjs from
+    phantomjs-url-base. Defaults to https://phantomjs.googlecode.com/files/
+    Set this if you want to use your own mirror for phantomjs.
+
 phantomjs-version
     Try to retreive phantomjs url from version
 

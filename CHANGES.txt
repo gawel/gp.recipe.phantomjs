@@ -1,3 +1,8 @@
+(next version)
+==============
+
+* Add phantomjs-url-base option for using phantomjs mirrors.
+
 1.9.0.2
 ========
 
