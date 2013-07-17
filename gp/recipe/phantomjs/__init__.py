@@ -14,10 +14,20 @@ class Recipe(object):
             buildout['buildout']['parts-directory'], name
         )
 
+    def get_version(self, options):
+        version = options.get('phantomjs-version')
+        if version:
+            return version
+        import pkg_resources
+        version = pkg_resources.get_distribution('gp.recipe.phantomjs').version
+        version = list(version.split('.'))[:-1]
+        return '.'.join(version)
+
     def get_binaries(self):
         binaries = glob.glob(os.path.join(self.install_dir, '*', 'bin', '*js'))
         if sys.platform.startswith('win'):
-            binaries.extend(glob.glob(os.path.join(self.install_dir, '*', '*.exe')))
+            binaries.extend(
+                glob.glob(os.path.join(self.install_dir, '*', '*.exe')))
         rv = {}
         for p in binaries:
             bname = os.path.basename(p)
@@ -41,7 +51,7 @@ class Recipe(object):
         if 'phantomjs' not in binaries:
             url = self.options.get('phantomjs-url', None)
             if not url:
-                version = self.options.get('phantomjs-version', '1.9.1')
+                version = self.get_version(self.options)
                 default_base = 'https://phantomjs.googlecode.com/files'
                 url_base = self.options.get('phantomjs-url-base', default_base)
                 if sys.platform.startswith('linux'):
@@ -62,8 +72,8 @@ class Recipe(object):
             self.download(url)
         if 'casperjs' not in binaries:
             url = self.options.get(
-                    'casperjs-url',
-                    'https://github.com/n1k0/casperjs/tarball/1.0.0-RC4')
+                'casperjs-url',
+                'https://github.com/n1k0/casperjs/tarball/1.0.3')
             if url:
                 self.download(url)
 
