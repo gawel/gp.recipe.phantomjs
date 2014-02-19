@@ -13,7 +13,8 @@ class Recipe(object):
         self.install_dir = os.path.join(
             buildout['buildout']['parts-directory'], name
         )
-        self.relative_paths = self.buildout['buildout'].get('relative-paths', False)
+        self.relative_paths = self.buildout['buildout'].get('relative-paths',
+                                                            False)
 
     def get_version(self, options):
         version = options.get('phantomjs-version')
@@ -53,7 +54,8 @@ class Recipe(object):
             url = self.options.get('phantomjs-url', None)
             if not url:
                 version = self.get_version(self.options)
-                default_base = 'https://phantomjs.googlecode.com/files'
+                default_base = (
+                    'https://bitbucket.org/ariya/phantomjs/downloads')
                 url_base = self.options.get('phantomjs-url-base', default_base)
                 if sys.platform.startswith('linux'):
                     arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
@@ -81,9 +83,10 @@ class Recipe(object):
         binaries = self.get_binaries()
         for f in binaries.values():
             os.chmod(f, 0o777)
-            
+
         if self.relative_paths:
-            self.options['arguments'] = self._get_relative_binary_dict(binaries)
+            self.options['arguments'] = \
+                self._get_relative_binary_dict(binaries)
         else:
             self.options['arguments'] = repr(binaries)
         self.options['eggs'] = 'gp.recipe.phantomjs'
