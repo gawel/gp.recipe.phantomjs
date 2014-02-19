@@ -33,7 +33,7 @@ long_description = (
 entry_point = 'gp.recipe.phantomjs:Recipe'
 entry_points = {"zc.buildout": ["default = %s" % entry_point]}
 
-tests_require = ['zope.testing', 'zc.buildout']
+tests_require = ['zope.testing', 'zc.buildout', 'Mock']
 
 setup(name='gp.recipe.phantomjs',
       version=version,
@@ -52,7 +52,7 @@ setup(name='gp.recipe.phantomjs',
       url='http://github.com/gawel/gp.recipe.phantomjs',
       license='gpl',
       packages=find_packages(exclude=['ez_setup', 'tests',
-                                      'bootstrap', 'bootstrap-py3k']),
+                                      'bootstrap']),
       namespace_packages=['gp', 'gp.recipe'],
       include_package_data=True,
       zip_safe=False,
@@ -63,6 +63,6 @@ setup(name='gp.recipe.phantomjs',
                         ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
-      test_suite='gp.recipe.phantomjs.tests.test_docs.test_suite',
+      test_suite='gp.recipe.phantomjs.tests',
       entry_points=entry_points,
       )
