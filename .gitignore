@@ -5,3 +5,5 @@ gp.recipe.phantomjs.egg-info/
 .installed.cfg
 eggs
 parts
+*.egg
+*~
