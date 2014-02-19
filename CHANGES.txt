@@ -1,3 +1,9 @@
+1.9.7.1 (unreleased)
+====================
+
+- Nothing changed yet.
+
+
 1.9.7.0 (2014-02-19)
 ====================
 
@@ -28,9 +34,6 @@ Python3 compat
 =======
 
 Also support linux3
-
-1.7.0.3
-=======
 
 Use correct arch (x86_64/i686) for linux systems
 
