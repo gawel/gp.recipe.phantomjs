@@ -13,6 +13,7 @@ class Recipe(object):
         self.install_dir = os.path.join(
             buildout['buildout']['parts-directory'], name
         )
+        self.relative_paths = self.buildout['buildout'].get('relative-paths', False)
 
     def get_version(self, options):
         version = options.get('phantomjs-version')
@@ -80,8 +81,11 @@ class Recipe(object):
         binaries = self.get_binaries()
         for f in binaries.values():
             os.chmod(f, 0o777)
-
-        self.options['arguments'] = repr(binaries)
+            
+        if self.relative_paths:
+            self.options['arguments'] = self._get_relative_binary_dict(binaries)
+        else:
+            self.options['arguments'] = repr(binaries)
         self.options['eggs'] = 'gp.recipe.phantomjs'
         self.options['entry-points'] = '\n'.join([
             '%s=gp.recipe.phantomjs.script:main' % s for s in binaries
@@ -91,3 +95,14 @@ class Recipe(object):
         return rscripts.install()
 
     update = install
+
+    def _get_relative_binary_dict(self, binaries):
+        """ convert absolute paths to relative arguments """
+        dict_items = ("'{0}': {1}".format(name, self._to_relative(path))
+                      for name, path in sorted(binaries.items()))
+        return "{{{0}}}".format(", ".join(dict_items))
+
+    def _to_relative(self, absolute_path):
+        """ convert an absolute path to a relative one """
+        path = absolute_path.replace(self.install_dir, '').lstrip(os.sep)
+        return "join(base, 'parts', '{0}', '{1}')".format(self.name, path)
