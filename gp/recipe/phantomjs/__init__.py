@@ -99,7 +99,7 @@ class Recipe(object):
     def _get_relative_binary_dict(self, binaries):
         """ convert absolute paths to relative arguments """
         dict_items = ("'{0}': {1}".format(name, self._to_relative(path))
-                      for name, path in binaries.items())
+                      for name, path in sorted(binaries.items()))
         return "{{{0}}}".format(", ".join(dict_items))
 
     def _to_relative(self, absolute_path):
