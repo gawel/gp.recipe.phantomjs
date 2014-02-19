@@ -1,8 +1,16 @@
+1.9.7.0
+=======
+
+Switch to PhantomJS 1.9.7
+
+Allow to use buildout's relative paths option
+
 1.9.1
 =====
 
-* Switch to PhantomJS 1.9.1
-* Add phantomjs-url-base option for using phantomjs mirrors.
+Switch to PhantomJS 1.9.1
+
+Add phantomjs-url-base option for using phantomjs mirrors.
 
 1.9.0.2
 ========
