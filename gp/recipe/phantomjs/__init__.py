@@ -49,6 +49,26 @@ class Recipe(object):
         dl = Download(self.buildout, self.name, options)
         dl.install()
 
+    def _get_url_from_base(self):
+        version = self.get_version(self.options)
+        url_base = self.options.get('phantomjs-url-base', None)
+        if sys.platform.startswith('linux'):
+            arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
+            url = (
+                '%s/phantomjs-%s-linux-%s.tar.bz2'
+            ) % (url_base, version, arch)
+        elif sys.platform == 'darwin':
+            url = (
+                '%s/phantomjs-%s-macosx.zip'
+            ) % (url_base, version)
+        elif sys.platform.startswith('win'):
+            url = (
+                '%s/phantomjs-%s-windows.zip'
+            ) % (url_base, version)
+        else:
+            raise RuntimeError('Please specify a phantomjs-url')
+        return url
+
     def _get_url_from_template(self):
         arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
         if sys.platform == 'darwin':
@@ -79,8 +99,11 @@ class Recipe(object):
         """Installer"""
         binaries = self.get_binaries()
         if 'phantomjs' not in binaries:
-            url = self.options.get('phantomjs-url', None)
-            if not url:
+            if self.options.get('phantomjs-url', None):
+                url = self.options.get('phantomjs-url')
+            elif self.get.options('phantomjs-url-base', None):
+                url = self._get_url_from_base()
+            else:
                 url = self._get_url_from_template()
             self.download(url)
         if 'casperjs' not in binaries:

@@ -22,7 +22,7 @@ phantomjs-url-base
 
 phantomjs-url-template
     If phantomjs-url and phantomjs-url-template are
-    not set, you can set a template which will populate various
+    not specified, you can set a template which will populate various
     variables. The variables should be wrapped in {}, and the
     following values are supported:
 
