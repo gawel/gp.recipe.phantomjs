@@ -14,7 +14,8 @@ class TestPhantomjs(unittest.TestCase):
         self.buildout = {
             'buildout': {
                 'parts-directory': PARTS_DIRECTORY,
-                'relative-paths': 'true'
+                'relative-paths': 'true',
+                'version': '1.9.7'
             }
         }
         self.install_dir = os.path.join(PARTS_DIRECTORY, self.name)
@@ -45,9 +46,9 @@ class TestPhantomjs(unittest.TestCase):
         """ _get_url_from_template should return the proper url """
         url = None
         if sys.platform == 'darwin':
-            url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-macosx.zip'
+            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-macosx.zip'
         elif sys.platform == 'linux':
             arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
-            url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-linux-' + arch + '.tar.bz2'
+            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-' + arch + '.tar.bz2'
         if url:
             assert self.recipe._get_url_from_template() == url
