@@ -101,7 +101,7 @@ class Recipe(object):
         if 'phantomjs' not in binaries:
             if self.options.get('phantomjs-url', None):
                 url = self.options.get('phantomjs-url')
-            elif self.get.options('phantomjs-url-base', None):
+            elif self.options.get('phantomjs-url-base', None):
                 url = self._get_url_from_base()
             else:
                 url = self._get_url_from_template()
