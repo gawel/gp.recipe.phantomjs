@@ -4,6 +4,8 @@ import glob
 import sys
 import os
 
+DEFAULT_URL_TEMPLATE = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-{version}-{phantom_platform}.{phantom_extension}'
+
 
 class Recipe(object):
     """zc.buildout recipe"""
@@ -22,7 +24,7 @@ class Recipe(object):
             return version
         import pkg_resources
         version = pkg_resources.get_distribution('gp.recipe.phantomjs').version
-        version = list(version.split('.'))[:-1]
+        version = list(version.split('.'))[:3]
         return '.'.join(version)
 
     def get_binaries(self):
@@ -47,31 +49,37 @@ class Recipe(object):
         dl = Download(self.buildout, self.name, options)
         dl.install()
 
+    def _get_url_from_template(self):
+        arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
+        if sys.platform == 'darwin':
+            phantom_platform = 'macosx'
+            phantom_extension = 'zip'
+        elif sys.platform.startswith('win'):
+            phantom_platform = 'windows'
+            phantom_extension = 'zip'
+        # else we assume linux
+        elif sys.platform.startswith('linux'):
+            phantom_platform = 'linux-{0}'.format(arch)
+            phantom_extension = 'tar.bz2'
+        else:
+            raise RuntimeError('Please specify a phantomjs-url')
+
+        template_dict = {
+            'arch': arch,
+            'phantom_platform': phantom_platform,
+            'phantom_extension': phantom_extension,
+            'version': self.get_version(self.options)
+        }
+
+        return DEFAULT_URL_TEMPLATE.format(**template_dict)
+
     def install(self):
         """Installer"""
         binaries = self.get_binaries()
         if 'phantomjs' not in binaries:
             url = self.options.get('phantomjs-url', None)
             if not url:
-                version = self.get_version(self.options)
-                default_base = (
-                    'https://bitbucket.org/ariya/phantomjs/downloads')
-                url_base = self.options.get('phantomjs-url-base', default_base)
-                if sys.platform.startswith('linux'):
-                    arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
-                    url = (
-                        '%s/phantomjs-%s-linux-%s.tar.bz2'
-                    ) % (url_base, version, arch)
-                elif sys.platform == 'darwin':
-                    url = (
-                        '%s/phantomjs-%s-macosx.zip'
-                    ) % (url_base, version)
-                elif sys.platform.startswith('win'):
-                    url = (
-                        '%s/phantomjs-%s-windows.zip'
-                    ) % (url_base, version)
-                else:
-                    raise RuntimeError('Please specify a phantomjs-url')
+                url = self._get_url_from_template()
             self.download(url)
         if 'casperjs' not in binaries:
             url = self.options.get(

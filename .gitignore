@@ -7,3 +7,4 @@ eggs
 parts
 *.egg
 *~
+.tox
