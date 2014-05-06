@@ -48,6 +48,6 @@ class TestPhantomjs(unittest.TestCase):
             url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-macosx.zip'
         elif sys.platform == 'linux':
             arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
-            url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-linux-' + arch + '.zip'
+            url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-linux-' + arch + '.tar.bz2'
         if url:
             assert self.recipe._get_url_from_template() == url
