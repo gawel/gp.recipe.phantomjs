@@ -88,7 +88,7 @@ class Recipe(object):
             'arch': arch,
             'phantom_platform': phantom_platform,
             'phantom_extension': phantom_extension,
-            'platform': self.platform,
+            'platform': sys.platform,
             'version': self.get_version(self.options)
         }
 
