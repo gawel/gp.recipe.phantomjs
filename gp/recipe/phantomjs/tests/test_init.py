@@ -43,9 +43,11 @@ class TestPhantomjs(unittest.TestCase):
 
     def test_get_url_from_template(self):
         """ _get_url_from_template should return the proper url """
+        url = None
         if sys.platform == 'darwin':
             url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-macosx.zip'
         elif sys.platform == 'linux':
             arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
             url = 'https://bitbucket.org/ariya/downloads/phantomjs-1.9.7-linux-' + arch + '.zip'
-        assert self.recipe._get_url_from_template() == url
+        if url:
+            assert self.recipe._get_url_from_template() == url
