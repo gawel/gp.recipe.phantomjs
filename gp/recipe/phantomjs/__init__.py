@@ -68,10 +68,12 @@ class Recipe(object):
             'arch': arch,
             'phantom_platform': phantom_platform,
             'phantom_extension': phantom_extension,
+            'platform': self.platform,
             'version': self.get_version(self.options)
         }
 
-        return DEFAULT_URL_TEMPLATE.format(**template_dict)
+        url_template = self.options.get('phantomjs-url-template', DEFAULT_URL_TEMPLATE)
+        return url_template.format(**template_dict)
 
     def install(self):
         """Installer"""
