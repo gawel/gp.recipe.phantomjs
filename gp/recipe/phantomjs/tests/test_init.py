@@ -1,6 +1,7 @@
 import unittest
 import os
-from mock import patch 
+import sys
+from mock import patch
 from gp.recipe.phantomjs import Recipe
 
 PARTS_DIRECTORY = "this_is_a_dummy"
@@ -13,7 +14,8 @@ class TestPhantomjs(unittest.TestCase):
         self.buildout = {
             'buildout': {
                 'parts-directory': PARTS_DIRECTORY,
-                'relative-paths': 'true'
+                'relative-paths': 'true',
+                'version': '1.9.7'
             }
         }
         self.install_dir = os.path.join(PARTS_DIRECTORY, self.name)
@@ -39,3 +41,14 @@ class TestPhantomjs(unittest.TestCase):
         result = self.recipe._get_relative_binary_dict(binaries)
         assert (result ==
                 "{'casperjs': join(base, 'parts', 'test', 'casperBar'), 'phantomjs': join(base, 'parts', 'test', 'phantomFoo')}")
+
+    def test_get_url_from_template(self):
+        """ _get_url_from_template should return the proper url """
+        url = None
+        if sys.platform == 'darwin':
+            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-macosx.zip'
+        elif sys.platform == 'linux':
+            arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
+            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-' + arch + '.tar.bz2'
+        if url:
+            assert self.recipe._get_url_from_template() == url
