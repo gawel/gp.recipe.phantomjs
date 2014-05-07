@@ -33,6 +33,11 @@ phantomjs-url-template
     * platform: the platform, as specified by sys.platform (e.g. linux, darwin)
     * version: the version of phantomjs
 
+    The default template is:
+
+        https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-{version}-{phantom_platform}.{phantom_extension}
+
+
 phantomjs-version
     Try to retreive phantomjs url from version
 
