@@ -74,13 +74,16 @@ class Recipe(object):
         if sys.platform == 'darwin':
             phantom_platform = 'macosx'
             phantom_extension = 'zip'
+            platform = 'darwin'
         elif sys.platform.startswith('win'):
             phantom_platform = 'windows'
             phantom_extension = 'zip'
+            platform = 'windows'
         # else we assume linux
         elif sys.platform.startswith('linux'):
             phantom_platform = 'linux-{0}'.format(arch)
             phantom_extension = 'tar.bz2'
+            platform = 'linux'
         else:
             raise RuntimeError('Please specify a phantomjs-url')
 
@@ -88,7 +91,7 @@ class Recipe(object):
             'arch': arch,
             'phantom_platform': phantom_platform,
             'phantom_extension': phantom_extension,
-            'platform': sys.platform,
+            'platform': platform,
             'version': self.get_version(self.options)
         }
 
