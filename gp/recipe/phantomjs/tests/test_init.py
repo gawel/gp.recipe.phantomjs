@@ -54,3 +54,31 @@ class TestPhantomjs(unittest.TestCase):
             url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-windows.zip'
         if url:
             assert self.recipe._get_url_from_template() == url
+
+    def test_generate_template_dict(self):
+        """ _generate_template_dict should return the proper values """
+        arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
+        if sys.platform == 'darwin':
+            assert self.recipe._generate_template_dict() == {
+                'arch': arch,
+                'phantom_platform': 'macosx',
+                'phantom_extension': 'zip',
+                'platform': 'darwin',
+                'version': '1.9.7'
+            }
+        elif sys.platform.startswith('win'):
+            assert self.recipe._generate_template_dict() == {
+                'arch': arch,
+                'phantom_platform': 'windows',
+                'phantom_extension': 'zip',
+                'platform': 'windows',
+                'version': '1.9.7'
+            }
+        elif sys.platform.startswith('linux'):
+            assert self.recipe._generate_template_dict() == {
+                'arch': arch,
+                'phantom_platform': 'linux-{0}'.format(arch),
+                'phantom_extension': 'tar.bz2',
+                'platform': 'linux',
+                'version': '1.9.7'
+            }
