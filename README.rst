@@ -1,6 +1,5 @@
 Buildout recipe to install phantomjs/casperjs
 
-
 Supported options
 =================
 
@@ -30,7 +29,7 @@ phantomjs-url-template
     * arch: the architecture. x86_64 or i686
     * phantom_platform: the platform, following the format dictated by the standard phantomjs url (e.g. linux, macosx)
     * phantom_extension: the extension, as specified by the format dictated by the standard phantomjs url (e.g. tar.bz2, zip)
-    * platform: the platform, as specified by sys.platform (e.g. linux, darwin)
+    * platform: the platform, which is one of: linux, darwin, or windows
     * version: the version of phantomjs
 
     The default template is:

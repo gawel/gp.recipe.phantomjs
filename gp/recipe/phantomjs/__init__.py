@@ -69,29 +69,34 @@ class Recipe(object):
             raise RuntimeError('Please specify a phantomjs-url')
         return url
 
-    def _get_url_from_template(self):
+    def _generate_template_dict(self):
         arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
         if sys.platform == 'darwin':
             phantom_platform = 'macosx'
             phantom_extension = 'zip'
+            platform = 'darwin'
         elif sys.platform.startswith('win'):
             phantom_platform = 'windows'
             phantom_extension = 'zip'
+            platform = 'windows'
         # else we assume linux
         elif sys.platform.startswith('linux'):
             phantom_platform = 'linux-{0}'.format(arch)
             phantom_extension = 'tar.bz2'
+            platform = 'linux'
         else:
             raise RuntimeError('Please specify a phantomjs-url')
 
-        template_dict = {
+        return {
             'arch': arch,
             'phantom_platform': phantom_platform,
             'phantom_extension': phantom_extension,
-            'platform': sys.platform,
+            'platform': platform,
             'version': self.get_version(self.options)
         }
 
+    def _get_url_from_template(self):
+        template_dict = self._generate_template_dict()
         url_template = self.options.get('phantomjs-url-template', DEFAULT_URL_TEMPLATE)
         return url_template.format(**template_dict)
 
