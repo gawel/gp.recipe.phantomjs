@@ -1,6 +1,5 @@
 Buildout recipe to install phantomjs/casperjs
 
-
 Supported options
 =================
 
