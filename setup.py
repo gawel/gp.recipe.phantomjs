@@ -12,7 +12,7 @@ def read(*rnames):
     except:
         return ''
 
-version = '1.9.7.2'
+version = '1.9.7.3.dev0'
 
 long_description = (
     read('README.rst')
