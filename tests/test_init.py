@@ -1,10 +1,12 @@
+import pkg_resources
 import unittest
 import os
 import sys
-from mock import patch
 from gp.recipe.phantomjs import Recipe
 
 PARTS_DIRECTORY = "this_is_a_dummy"
+VERSION = pkg_resources.get_distribution('gp.recipe.phantomjs').version
+VERSION = '.'.join(VERSION.split('.')[:3])
 
 
 class TestPhantomjs(unittest.TestCase):
@@ -33,25 +35,27 @@ class TestPhantomjs(unittest.TestCase):
         )
 
     def test_get_relative_binary_dict(self):
-        """ _get_relative_binary_dict should return a valid relative dictionary """
+        """ _get_relative_binary_dict should return a valid relative dictionary
+        """
         binaries = {
             'phantomjs': os.path.join(self.install_dir, 'phantomFoo'),
             'casperjs': os.path.join(self.install_dir, 'casperBar')
         }
         result = self.recipe._get_relative_binary_dict(binaries)
         assert (result ==
-                "{'casperjs': join(base, 'parts', 'test', 'casperBar'), 'phantomjs': join(base, 'parts', 'test', 'phantomFoo')}")
+                "{'casperjs': join(base, 'parts', 'test', 'casperBar'), "
+                "'phantomjs': join(base, 'parts', 'test', 'phantomFoo')}")
 
     def test_get_url_from_template(self):
         """ _get_url_from_template should return the proper url """
-        url = None
+        url = 'https://bitbucket.org/ariya/phantomjs/downloads/'
         if sys.platform == 'darwin':
-            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-macosx.zip'
+            url += 'phantomjs-' + VERSION + '-macosx.zip'
         elif sys.platform.startswith('linux'):
             arch = 'x86_64' in os.uname() and 'x86_64' or 'i686'
-            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-' + arch + '.tar.bz2'
+            url += 'phantomjs-' + VERSION + '-linux-' + arch + '.tar.bz2'
         elif sys.platform.startswith('win'):
-            url = 'https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-windows.zip'
+            url += 'phantomjs-' + VERSION + '-windows.zip'
         if url:
             assert self.recipe._get_url_from_template() == url
 
@@ -64,7 +68,7 @@ class TestPhantomjs(unittest.TestCase):
                 'phantom_platform': 'macosx',
                 'phantom_extension': 'zip',
                 'platform': 'darwin',
-                'version': '1.9.7'
+                'version': VERSION
             }
         elif sys.platform.startswith('win'):
             assert self.recipe._generate_template_dict() == {
@@ -72,7 +76,7 @@ class TestPhantomjs(unittest.TestCase):
                 'phantom_platform': 'windows',
                 'phantom_extension': 'zip',
                 'platform': 'windows',
-                'version': '1.9.7'
+                'version': VERSION
             }
         elif sys.platform.startswith('linux'):
             assert self.recipe._generate_template_dict() == {
@@ -80,5 +84,5 @@ class TestPhantomjs(unittest.TestCase):
                 'phantom_platform': 'linux-{0}'.format(arch),
                 'phantom_extension': 'tar.bz2',
                 'platform': 'linux',
-                'version': '1.9.7'
+                'version': VERSION
             }
